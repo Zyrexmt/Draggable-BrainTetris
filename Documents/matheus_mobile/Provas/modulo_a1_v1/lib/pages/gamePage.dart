@@ -99,7 +99,7 @@ class _GamePageState extends State<GamePage> {
       else if (dx < -2.0)
         g.moveRight();
 
-      g.setFastDrop(dy > -3.0);
+      g.setFastDrop(dy > -1.5);
     });
   }
 
