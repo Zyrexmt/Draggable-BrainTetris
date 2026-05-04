@@ -34,37 +34,37 @@ class TetrisPiece {
       case Tetromino.T:
         final col = spawnCol ?? rng.nextInt(colCount - 2);
         position = [
+          col - colCount + 1,
+          col,
           col + 1,
-          col + colCount,
-          col + colCount + 1,
-          col + colCount + 2,
+          col + 2,
         ];
         break;
       case Tetromino.S:
         final col = spawnCol ?? rng.nextInt(colCount - 1);
         position = [
-          col + 1,
-          col + colCount,
-          col + colCount + 1,
-          col + colCount * 2,
+          col,
+          col - colCount,
+          col - colCount + 1,
+          col - colCount * 2 + 1,
         ];
         break;
       case Tetromino.I:
         final col = spawnCol ?? rng.nextInt(colCount);
         position = [
           col + 2,
-          col + colCount + 2,
-          col + colCount * 2 + 2,
-          col + colCount * 3 + 2,
+          col - colCount + 2,
+          col - colCount * 2 + 2,
+          col - colCount * 3 + 2,
         ];
         break;
       case Tetromino.L:
         final col = spawnCol ?? rng.nextInt(colCount - 2);
         position = [
-          col + 2,
-          col + colCount,
-          col + colCount + 1,
-          col + colCount + 2,
+          col - colCount * 2 + 2,
+          col - colCount,
+          col - colCount + 1,
+          col - colCount + 2,
         ];
         break;
     }
@@ -81,8 +81,11 @@ class TetrisGameProvider with ChangeNotifier {
   int score = 0;
   bool isGameOver = false;
   Timer? _gameTimer;
-
   int _tickMs = 500;
+
+  bool _isGrounded() {
+    return !_canMoveDown();
+  }
 
   void startGame() {
     grid = List.generate(totalCells, (_) => null);
@@ -106,15 +109,10 @@ class TetrisGameProvider with ChangeNotifier {
     if (_tickMs != target) _startTimer(target);
   }
 
-  static const int spawnOffset = -colCount;
 
   void _createNewPiece() {
     final types = Tetromino.values;
     currentPiece = TetrisPiece(types[Random().nextInt(types.length)]);
-
-    currentPiece!.position = currentPiece!.position
-        .map((p) => p + spawnOffset)
-        .toList();
 
     for (int pos in currentPiece!.position) {
       if (pos >= 0 && pos < totalCells && grid[pos] != null) {
@@ -129,6 +127,7 @@ class TetrisGameProvider with ChangeNotifier {
 
   void moveLeft() {
     if (currentPiece == null || isGameOver) return;
+    if (_isGrounded()) return;
     if (_canMoveHorizontal(-1)) {
       for (int i = 0; i < currentPiece!.position.length; i++) {
         currentPiece!.position[i]--;
@@ -139,6 +138,7 @@ class TetrisGameProvider with ChangeNotifier {
 
   void moveRight() {
     if (currentPiece == null || isGameOver) return;
+    if (_isGrounded()) return;
     if (_canMoveHorizontal(1)) {
       for (int i = 0; i < currentPiece!.position.length; i++) {
         currentPiece!.position[i]++;
