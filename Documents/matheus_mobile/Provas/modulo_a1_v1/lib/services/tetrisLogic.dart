@@ -29,10 +29,9 @@ class TetrisPiece {
   }
 
   void initPosition({int? spawnCol}) {
-    final rng = Random();
     switch (type) {
       case Tetromino.T:
-        final col = spawnCol ?? rng.nextInt(colCount - 2);
+        final col = spawnCol ?? 2;
         position = [
           col - colCount + 1,
           col,
@@ -41,7 +40,7 @@ class TetrisPiece {
         ];
         break;
       case Tetromino.S:
-        final col = spawnCol ?? rng.nextInt(colCount - 1);
+        final col = spawnCol ?? 2;
         position = [
           col,
           col - colCount,
@@ -50,7 +49,7 @@ class TetrisPiece {
         ];
         break;
       case Tetromino.I:
-        final col = spawnCol ?? rng.nextInt(colCount);
+        final col = spawnCol ?? 2;
         position = [
           col + 2,
           col - colCount + 2,
@@ -59,7 +58,7 @@ class TetrisPiece {
         ];
         break;
       case Tetromino.L:
-        final col = spawnCol ?? rng.nextInt(colCount - 2);
+        final col = spawnCol ?? 2;
         position = [
           col - colCount * 2 + 2,
           col - colCount,
