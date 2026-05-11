@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo_a1_v2/pages/homePage.dart';
 import 'package:modulo_a1_v2/pages/splashPage.dart';
 
 class AppController extends StatelessWidget {
@@ -10,7 +11,8 @@ class AppController extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue)),
       routes: {
-        '/splash': (context) => const SplashScreen()
+        '/splash': (context) => const SplashScreen(),
+        '/home': (context) => const HomePage(),
       }, initialRoute: '/splash',
     );
   }
